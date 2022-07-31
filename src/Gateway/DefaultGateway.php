@@ -3,7 +3,7 @@
 namespace BTCPayServer\WC\Gateway;
 
 /**
- * Default Gateway that provides all available payment methods of BTCPay Server store configuration.
+ * Default Gateway that provides all available payment methods of ZEUSPay store configuration.
  */
 class DefaultGateway extends AbstractGateway {
 
@@ -16,10 +16,10 @@ class DefaultGateway extends AbstractGateway {
 
 		// todo: maybe make the button text configurable via settings.
 		// General gateway setup.
-		$this->order_button_text  = __('Proceed to BTCPay', 'btcpay-greenfield-for-woocommerce');
+		$this->order_button_text  = __('Proceed to ZEUSPay', 'zeuspay-for-woocommerce');
 		// Admin facing title and description.
-		$this->method_title       = 'BTCPay (default)';
-		$this->method_description = __('BTCPay default gateway supporting all available tokens on your BTCPay store.', 'btcpay-greenfield-for-woocommerce');
+		$this->method_title       = 'ZEUSPay (default)';
+		$this->method_description = __('ZEUSPay default gateway supporting all available tokens on your ZEUSPay store.', 'zeuspay-for-woocommerce');
 
 		// Actions.
 		add_action('woocommerce_api_btcpaygf_default', [$this, 'processWebhook']);
@@ -29,14 +29,14 @@ class DefaultGateway extends AbstractGateway {
 	 * @inheritDoc
 	 */
 	public function getTitle(): string {
-		return $this->get_option('title', 'BTCPay (Bitcoin, Lightning Network, ...)');
+		return $this->get_option('title', 'ZEUSPay (Bitcoin, Lightning Network, ...)');
 	}
 
 	/**
 	 * @inheritDoc
 	 */
 	public function getDescription(): string {
-		return $this->get_option('description', 'You will be redirected to BTCPay to complete your purchase.');
+		return $this->get_option('description', 'You will be redirected to ZEUSPay to complete your purchase.');
 	}
 
 	/**
@@ -46,12 +46,12 @@ class DefaultGateway extends AbstractGateway {
 		parent::init_form_fields();
 		$this->form_fields += [
 			'enforce_payment_tokens' => [
-				'title'       => __( 'Enforce payment tokens', 'btcpay-greenfield-for-woocommerce' ),
+				'title'       => __( 'Enforce payment tokens', 'zeuspay-for-woocommerce' ),
 				'type'        => 'checkbox',
-				'label'       => __( 'Enforce payment methods "payment". This way tokens of type promotion will be excluded for this gateway.', 'btcpay-greenfield-for-woocommerce' ),
+				'label'       => __( 'Enforce payment methods "payment". This way tokens of type promotion will be excluded for this gateway.', 'zeuspay-for-woocommerce' ),
 				'default'     => 'yes',
 				'value'       => 'yes',
-				'description' => __( 'This will override the default btcpay payment method (defaults to all supported by BTCPay Server) and enforce to tokens of type "payment". This is useful if you have enabled separate payment gateways and want full control on what is available on BTCPay Server payment page.', 'btcpay-greenfield-for-woocommerce' ),
+				'description' => __( 'This will override the default ZEUSPay payment method (defaults to all supported by ZEUSPay) and enforce to tokens of type "payment". This is useful if you have enabled separate payment gateways and want full control on what is available on ZEUSPay payment page.', 'zeuspay-for-woocommerce' ),
 				'desc_tip'    => true,
 			],
 		];

@@ -26,10 +26,10 @@ jQuery(document).ready(function($) {
 					window.location = response.data.url;
 				}
 			}).fail( function() {
-				alert('Error processing your request. Please make sure to enter a valid BTCPay Server instance URL.')
+				alert('Error processing your request. Please make sure to enter a valid ZEUSPay instance URL.')
 			});
 		} else {
-			alert('Please enter a valid url including https:// in the BTCPay Server URL input field.')
+			alert('Please enter a valid url including https:// in the ZEUSPay URL input field.')
 		}
 	});
 });

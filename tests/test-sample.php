@@ -2,7 +2,7 @@
 /**
  * Class SampleTest
  *
- * @package Btcpay_Greenfield_For_Woocommerce
+ * @package Zeuspay_For_Woocommerce
  */
 
 /**

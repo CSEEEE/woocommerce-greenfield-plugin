@@ -18,7 +18,7 @@ services:
     build: .
     volumes:
       - wordpress_data:/var/www/html
-      - ./:/var/www/html/wp-content/plugins/btcpay-greenfield-for-woocommerce
+      - ./:/var/www/html/wp-content/plugins/zeuspay-for-woocommerce
     ports:
       - "8821:80"
     restart: always

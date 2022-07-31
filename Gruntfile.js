@@ -9,7 +9,7 @@ module.exports = function( grunt ) {
 
 		addtextdomain: {
 			options: {
-				textdomain: 'btcpay-greenfield-for-woocommerce',
+				textdomain: 'zeuspay-for-woocommerce',
 			},
 			update_all_domains: {
 				options: {
@@ -24,8 +24,8 @@ module.exports = function( grunt ) {
 				options: {
 					domainPath: '/languages',
 					exclude: [ '\.git/*', 'bin/*', 'node_modules/*', 'tests/*' ],
-					mainFile: 'btcpay-greenfield-for-woocommerce.php',
-					potFilename: 'btcpay-greenfield-for-woocommerce.pot',
+					mainFile: 'zeuspay-for-woocommerce.php',
+					potFilename: 'zeuspay-for-woocommerce.pot',
 					potHeaders: {
 						poedit: true,
 						'x-poedit-keywordslist': true

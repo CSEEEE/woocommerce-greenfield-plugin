@@ -1,5 +1,5 @@
 {
-  "name": "btcpayserver/btcpay-greenfield-for-woocommerce",
+  "name": "btcpayserver/zeuspay-for-woocommerce",
   "type": "project",
   "license": "MIT",
   "autoload": {
@@ -9,8 +9,8 @@
   },
   "authors": [
     {
-      "name": "Andreas Tasch",
-      "email": "andy.tasch@gmail.com"
+      "name": "Charley Forey",
+      "email": "charley@zeuspay.com"
     }
   ],
   "require": {

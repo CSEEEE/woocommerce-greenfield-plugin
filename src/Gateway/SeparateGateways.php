@@ -48,8 +48,8 @@ class SeparateGateways {
 			                    public function __construct() {
 				                  \$this->id = '{$id}';
 				                  parent::__construct();
-				                  \$this->method_title = 'BTCPay Gateway: {$symbol}';
-				                  \$this->method_description = 'This is separate payment gateway managed by BTCPay.';
+				                  \$this->method_title = 'ZEUSPay Gateway: {$symbol}';
+				                  \$this->method_description = 'This is separate payment gateway managed by ZEUSPay.';
 				                  \$this->tokenType = \$this->getTokenType();
 				                  \$this->primaryPaymentMethod = '{$symbol}';
 			                    }
@@ -66,14 +66,14 @@ class SeparateGateways {
 									parent::init_form_fields();
 									\$this->form_fields += [
 										'token_type' => [
-											'title' => __( 'Token type', 'btcpay-greenfield-for-woocommerce' ),
+											'title' => __( 'Token type', 'zeuspay-for-woocommerce' ),
 											'type' => 'select',
 											'options' => [
 												'payment' => 'Payment',
 												'promotion' => 'Promotion'
 											],
 											'default' => 'payment',
-											'description' => __( 'Tokens of type promotion will not have a FIAT (USD, EUR, ..) exchange rate but counted as 1 per item quantity. See <a target=\"_blank\" href=\"https://docs.btcpayserver.org/FAQ/Integrations/#token-types\">here</a> for more details.', 'btcpay-greenfield-for-woocommerce' ),
+											'description' => __( 'Tokens of type promotion will not have a FIAT (USD, EUR, ..) exchange rate but counted as 1 per item quantity. See <a target=\"_blank\" href=\"https://docs.zeuspay.com/FAQ/Integrations/#token-types\">here</a> for more details.', 'zeuspay-for-woocommerce' ),
 											'desc_tip' => false,
 										],
 									];

@@ -22,7 +22,7 @@ abstract class AbstractGateway extends \WC_Payment_Gateway {
 		// General gateway setup.
 		$this->icon              = $this->getIcon();
 		$this->has_fields        = false;
-		$this->order_button_text = __( 'Proceed to BTCPay', 'btcpay-greenfield-for-woocommerce' );
+		$this->order_button_text = __( 'Proceed to ZEUSPay', 'zeuspay-for-woocommerce' );
 
 		// Load the settings.
 		$this->init_form_fields();
@@ -48,24 +48,24 @@ abstract class AbstractGateway extends \WC_Payment_Gateway {
 	public function init_form_fields() {
 		$this->form_fields = [
 			'enabled' => [
-				'title'       => __( 'Enabled/Disabled', 'btcpay-greenfield-for-woocommerce' ),
+				'title'       => __( 'Enabled/Disabled', 'zeuspayfor-woocommerce' ),
 				'type'        => 'checkbox',
-				'label'       => __( 'Enable this payment gateway.', 'btcpay-greenfield-for-woocommerce' ),
+				'label'       => __( 'Enable this payment gateway.', 'zeuspay-for-woocommerce' ),
 				'default'     => 'no',
 				'value'       => 'yes',
 				'desc_tip'    => false,
 			],
 			'title'       => [
-				'title'       => __( 'Title', 'btcpay-greenfield-for-woocommerce' ),
+				'title'       => __( 'Title', 'zeuspay-for-woocommerce' ),
 				'type'        => 'text',
-				'description' => __( 'Controls the name of this payment method as displayed to the customer during checkout.', 'btcpay-greenfield-for-woocommerce' ),
+				'description' => __( 'Controls the name of this payment method as displayed to the customer during checkout.', 'zeuspay-for-woocommerce' ),
 				'default'     => $this->getTitle(),
 				'desc_tip'    => true,
 			],
 			'description' => [
-				'title'       => __( 'Customer Message', 'btcpay-greenfield-for-woocommerce' ),
+				'title'       => __( 'Customer Message', 'zeuspay-for-woocommerce' ),
 				'type'        => 'textarea',
-				'description' => __( 'Message to explain how the customer will be paying for the purchase.', 'btcpay-greenfield-for-woocommerce' ),
+				'description' => __( 'Message to explain how the customer will be paying for the purchase.', 'zeuspay-for-woocommerce' ),
 				'default'     => $this->getDescription(),
 				'desc_tip'    => true,
 			],
@@ -80,9 +80,9 @@ abstract class AbstractGateway extends \WC_Payment_Gateway {
 	 */
 	public function process_payment( $orderId ) {
 		if ( ! $this->apiHelper->configured ) {
-			Logger::debug( 'BTCPay Server API connection not configured, aborting. Please go to BTCPay Server settings and set it up.' );
+			Logger::debug( 'ZEUSPay API connection not configured, aborting. Please go to ZEUSPay settings and set it up.' );
 			// todo: show error notice/make sure it fails
-			throw new \Exception( __( "Can't process order. Please contact us if the problem persists.", 'btcpay-greenfield-for-woocommerce' ) );
+			throw new \Exception( __( "Can't process order. Please contact us if the problem persists.", 'zeuspay-for-woocommerce' ) );
 		}
 
 		// Load the order and check it.
@@ -96,7 +96,7 @@ abstract class AbstractGateway extends \WC_Payment_Gateway {
 		// Check for existing invoice and redirect instead.
 		if ( $this->validInvoiceExists( $orderId ) ) {
 			$existingInvoiceId = get_post_meta( $orderId, 'BTCPay_id', true );
-			Logger::debug( 'Found existing BTCPay Server invoice and redirecting to it. Invoice id: ' . $existingInvoiceId );
+			Logger::debug( 'Found existing ZEUSPay invoice and redirecting to it. Invoice id: ' . $existingInvoiceId );
 
 			return [
 				'result'   => 'success',
@@ -105,10 +105,10 @@ abstract class AbstractGateway extends \WC_Payment_Gateway {
 		}
 
 		// Create an invoice.
-		Logger::debug( 'Creating invoice on BTCPay Server' );
+		Logger::debug( 'Creating invoice on ZEUSPay' );
 		if ( $invoice = $this->createInvoice( $order ) ) {
 
-			// Todo: update order status and BTCPay meta data.
+			// Todo: update order status and ZEUSPay meta data.
 
 			Logger::debug( 'Invoice creation successful, redirecting user.' );
 
@@ -149,18 +149,18 @@ abstract class AbstractGateway extends \WC_Payment_Gateway {
 		ob_start();
 		?>
 		<tr valign="top">
-			<th scope="row" class="titledesc"><?php echo __('Gateway Icon:', 'btcpay-greenfield-for-woocommerce'); ?></th>
+			<th scope="row" class="titledesc"><?php echo __('Gateway Icon:', 'zeuspay-for-woocommerce'); ?></th>
 			<td class="forminp" id="btcpay_gf_icon">
 				<div id="btcpay_gf_icon_container">
 					<input class="btcpay-gf-icon-button" type="button"
 						   name="woocommerce_btcpaygf_icon_upload_button"
-						   value="<?php echo __('Upload or select icon', 'btcpay-greenfield-for-woocommerce'); ?>"
+						   value="<?php echo __('Upload or select icon', 'zeuspay-for-woocommerce'); ?>"
 						   style="<?php echo $mediaId ? 'display:none;' : ''; ?>"
 					/>
 					<img class="btcpay-gf-icon-image" src="<?php echo esc_url($mediaSrc); ?>" style="<?php echo esc_attr($mediaId) ? '' : 'display:none;'; ?>" />
 					<input class="btcpay-gf-icon-remove" type="button"
 						   name="woocommerce_btcpaygf_icon_button_remove"
-						   value="<?php echo __('Remove image', 'btcpay-greenfield-for-woocommerce'); ?>"
+						   value="<?php echo __('Remove image', 'zeuspay-for-woocommerce'); ?>"
 						   style="<?php echo $mediaId ? '' : 'display:none;'; ?>"
 					/>
 					<input class="input-text regular-input btcpay-gf-icon-value" type="hidden"
@@ -210,15 +210,15 @@ abstract class AbstractGateway extends \WC_Payment_Gateway {
 				'btcpay_gf_abstract_gateway',
 				'btcpaygfGatewayData',
 				[
-					'buttonText' => __('Use this image', 'btcpay-greenfield-for-woocommerce'),
-					'titleText' => __('Insert image', 'btcpay-greenfield-for-woocommerce'),
+					'buttonText' => __('Use this image', 'zeuspay-for-woocommerce'),
+					'titleText' => __('Insert image', 'zeuspay-for-woocommerce'),
 				]
 			);
 		}
 	}
 
 	/**
-	 * Process webhooks from BTCPay.
+	 * Process webhooks from ZEUSPay.
 	 */
 	public function processWebhook() {
 		if ($rawPostData = file_get_contents("php://input")) {
@@ -240,8 +240,8 @@ abstract class AbstractGateway extends \WC_Payment_Gateway {
 				$postData = json_decode($rawPostData, false, 512, JSON_THROW_ON_ERROR);
 
 				if (!isset($postData->invoiceId)) {
-					Logger::debug('No BTCPay invoiceId provided, aborting.');
-					wp_die('No BTCPay invoiceId provided, aborting.');
+					Logger::debug('No ZEUSPay invoiceId provided, aborting.');
+					wp_die('No ZEUSPay invoiceId provided, aborting.');
 				}
 
 				// Load the order by metadata field BTCPay_id
@@ -252,9 +252,9 @@ abstract class AbstractGateway extends \WC_Payment_Gateway {
 
 				// Abort if no orders found.
 				if (count($orders) === 0) {
-					Logger::debug('Could not load order by BTCPay invoiceId: ' . $postData->invoiceId);
+					Logger::debug('Could not load order by ZEUSPay invoiceId: ' . $postData->invoiceId);
 					// Note: we return status 200 here for wp_die() which seems counter intuative but needs to be done
-					// to not clog up the BTCPay servers webhook processing queue until it is fixed there.
+					// to not clog up the ZEUSPay servers webhook processing queue until it is fixed there.
 					wp_die('No order found for this invoiceId.', '', ['response' => 200]);
 				}
 
@@ -291,11 +291,11 @@ abstract class AbstractGateway extends \WC_Payment_Gateway {
 				if ($webhookData->afterExpiration) {
 					if ($order->get_status() === $configuredOrderStates[OrderStates::EXPIRED]) {
 						$this->updateWCOrderStatus($order, $configuredOrderStates[OrderStates::EXPIRED_PAID_PARTIAL]);
-						$order->add_order_note(__('Invoice payment received after invoice was already expired.', 'btcpay-greenfield-for-woocommerce'));
+						$order->add_order_note(__('Invoice payment received after invoice was already expired.', 'zeuspay-for-woocommerce'));
 					}
 				} else {
 					// No need to change order status here, only leave a note.
-					$order->add_order_note(__('Invoice (partial) payment received. Waiting for full payment.', 'btcpay-greenfield-for-woocommerce'));
+					$order->add_order_note(__('Invoice (partial) payment received. Waiting for full payment.', 'zeuspay-for-woocommerce'));
 				}
 
 				// Store payment data (exchange rate, address).
@@ -305,35 +305,35 @@ abstract class AbstractGateway extends \WC_Payment_Gateway {
 			case 'InvoiceProcessing': // The invoice is paid in full.
 				$this->updateWCOrderStatus($order, $configuredOrderStates[OrderStates::PROCESSING]);
 				if ($webhookData->overPaid) {
-					$order->add_order_note(__('Invoice payment received fully with overpayment, waiting for settlement.', 'btcpay-greenfield-for-woocommerce'));
+					$order->add_order_note(__('Invoice payment received fully with overpayment, waiting for settlement.', 'zeuspay-for-woocommerce'));
 				} else {
-					$order->add_order_note(__('Invoice payment received fully, waiting for settlement.', 'btcpay-greenfield-for-woocommerce'));
+					$order->add_order_note(__('Invoice payment received fully, waiting for settlement.', 'zeuspay-for-woocommerce'));
 				}
 				break;
 			case 'InvoiceInvalid':
 				$this->updateWCOrderStatus($order, $configuredOrderStates[OrderStates::INVALID]);
 				if ($webhookData->manuallyMarked) {
-					$order->add_order_note(__('Invoice manually marked invalid.', 'btcpay-greenfield-for-woocommerce'));
+					$order->add_order_note(__('Invoice manually marked invalid.', 'zeuspay-for-woocommerce'));
 				} else {
-					$order->add_order_note(__('Invoice became invalid.', 'btcpay-greenfield-for-woocommerce'));
+					$order->add_order_note(__('Invoice became invalid.', 'zeuspay-for-woocommerce'));
 				}
 				break;
 			case 'InvoiceExpired':
 				if ($webhookData->partiallyPaid) {
 					$this->updateWCOrderStatus($order, $configuredOrderStates[OrderStates::EXPIRED_PAID_PARTIAL]);
-					$order->add_order_note(__('Invoice expired but was paid partially, please check.', 'btcpay-greenfield-for-woocommerce'));
+					$order->add_order_note(__('Invoice expired but was paid partially, please check.', 'zeuspay-for-woocommerce'));
 				} else {
 					$this->updateWCOrderStatus($order, $configuredOrderStates[OrderStates::EXPIRED]);
-					$order->add_order_note(__('Invoice expired.', 'btcpay-greenfield-for-woocommerce'));
+					$order->add_order_note(__('Invoice expired.', 'zeuspay-for-woocommerce'));
 				}
 				break;
 			case 'InvoiceSettled':
 				$order->payment_complete();
 				if ($webhookData->overPaid) {
-					$order->add_order_note(__('Invoice payment settled but was overpaid.', 'btcpay-greenfield-for-woocommerce'));
+					$order->add_order_note(__('Invoice payment settled but was overpaid.', 'zeuspay-for-woocommerce'));
 					$this->updateWCOrderStatus($order, $configuredOrderStates[OrderStates::SETTLED_PAID_OVER]);
 				} else {
-					$order->add_order_note(__('Invoice payment settled.', 'btcpay-greenfield-for-woocommerce'));
+					$order->add_order_note(__('Invoice payment settled.', 'zeuspay-for-woocommerce'));
 					$this->updateWCOrderStatus($order, $configuredOrderStates[OrderStates::SETTLED]);
 				}
 
@@ -345,8 +345,8 @@ abstract class AbstractGateway extends \WC_Payment_Gateway {
 	}
 
 	/**
-	 * Checks if the order has already a BTCPay invoice set and checks if it is still
-	 * valid to avoid creating multiple invoices for the same order on BTCPay Server end.
+	 * Checks if the order has already a ZEUSPay invoice set and checks if it is still
+	 * valid to avoid creating multiple invoices for the same order on ZEUSPay end.
 	 *
 	 * @param int $orderId
 	 *
@@ -355,10 +355,10 @@ abstract class AbstractGateway extends \WC_Payment_Gateway {
 	protected function validInvoiceExists( int $orderId ): bool {
 		// Check order metadata for BTCPay_id.
 		if ( $invoiceId = get_post_meta( $orderId, 'BTCPay_id', true ) ) {
-			// Validate the order status on BTCPay server.
+			// Validate the order status on ZEUSPay.
 			$client = new Invoice( $this->apiHelper->url, $this->apiHelper->apiKey );
 			try {
-				Logger::debug( 'Trying to fetch existing invoice from BTCPay Server.' );
+				Logger::debug( 'Trying to fetch existing invoice from ZEUSPay.' );
 				$invoice       = $client->getInvoice( $this->apiHelper->storeId, $invoiceId );
 				$invalidStates = [ 'Expired', 'Invalid' ];
 				if ( in_array( $invoice->getData()['status'], $invalidStates ) ) {
@@ -375,7 +375,7 @@ abstract class AbstractGateway extends \WC_Payment_Gateway {
 					}
 					// Mark existing invoice as invalid.
 					$order = wc_get_order($orderId);
-					$order->add_order_note(__('BTCPay invoice manually set to invalid because customer went back to checkout and changed payment gateway.', 'btcpay-greenfield-for-woocommerce'));
+					$order->add_order_note(__('ZEUSPay invoice manually set to invalid because customer went back to checkout and changed payment gateway.', 'zeuspay-for-woocommerce'));
 					$this->markInvoiceInvalid($invoiceId);
 					return false;
 				}
@@ -435,7 +435,7 @@ abstract class AbstractGateway extends \WC_Payment_Gateway {
 	}
 
 	/**
-	 * Create an invoice on BTCPay Server.
+	 * Create an invoice on ZEUSPay.
 	 */
 	public function createInvoice( \WC_Order $order ): ?\BTCPayServer\Result\Invoice {
 		// In case some plugins customizing the order number we need to pass that along, defaults to internal ID.
@@ -472,7 +472,7 @@ abstract class AbstractGateway extends \WC_Payment_Gateway {
 		if ( $transactionSpeed !== 'default' && in_array($transactionSpeed, $allowedSpeedValues)) {
 			$checkoutOptions->setSpeedPolicy( $transactionSpeed );
 		} else {
-			Logger::debug('Did not set transaction speed setting, using BTCPay Server store config instead. Invalid value given: ' . $transactionSpeed);
+			Logger::debug('Did not set transaction speed setting, using ZEUSPay store config instead. Invalid value given: ' . $transactionSpeed);
 		}
 
 		// Payment methods.
@@ -490,7 +490,7 @@ abstract class AbstractGateway extends \WC_Payment_Gateway {
 			$amount = PreciseNumber::parseString( $order->get_total() ); // unlike method signature suggests, it returns string.
 		}
 
-		// Create the invoice on BTCPay Server.
+		// Create the invoice on ZEUSPay.
 		$client = new Invoice( $this->apiHelper->url, $this->apiHelper->apiKey );
 		try {
 			$invoice = $client->createInvoice(
@@ -548,10 +548,10 @@ abstract class AbstractGateway extends \WC_Payment_Gateway {
 	}
 
 	/**
-	 * References WC order metadata with BTCPay invoice data.
+	 * References WC order metadata with ZEUSPay invoice data.
 	 */
 	protected function updateOrderMetadata( int $orderId, \BTCPayServer\Result\Invoice $invoice ) {
-		// Store relevant BTCPay invoice data.
+		// Store relevant ZEUSPay invoice data.
 		update_post_meta( $orderId, 'BTCPay_redirect', $invoice->getData()['checkoutLink'] );
 		update_post_meta( $orderId, 'BTCPay_id', $invoice->getData()['id'] );
 	}
@@ -572,25 +572,25 @@ abstract class AbstractGateway extends \WC_Payment_Gateway {
 	 * Get customer visible gateway title.
 	 */
 	public function getTitle(): string {
-		return $this->get_option('title', 'BTCPay (Bitcoin, Lightning Network, ...)');
+		return $this->get_option('title', 'ZEUSPay (Bitcoin, Lightning Network, ...)');
 	}
 
 	/**
 	 * Get customer facing gateway description.
 	 */
 	public function getDescription(): string {
-		return $this->get_option('description', 'You will be redirected to BTCPay to complete your purchase.');
+		return $this->get_option('description', 'You will be redirected to ZEUSPay to complete your purchase.');
 	}
 
 	/**
-	 * Get type of BTCPay payment method/token as configured. Can be payment or promotion.
+	 * Get type of ZEUSPay payment method/token as configured. Can be payment or promotion.
 	 */
 	public function getTokenType(): string {
 		return $this->get_option('token_type', 'payment');
 	}
 
 	/**
-	 * Get allowed BTCPay payment methods (needed for limiting invoices to specific payment methods).
+	 * Get allowed ZEUSPay payment methods (needed for limiting invoices to specific payment methods).
 	 */
 	abstract public function getPaymentMethods(): array;
 }

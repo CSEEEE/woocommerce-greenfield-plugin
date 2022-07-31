@@ -1,11 +1,11 @@
 <?php
 /**
- * Plugin Name:     BTCPay For Woocommerce V2
- * Plugin URI:      https://wordpress.org/plugins/btcpay-greenfield-for-woocommerce/
- * Description:     BTCPay Server is a free and open-source bitcoin payment processor which allows you to receive payments in Bitcoin and altcoins directly, with no fees, transaction cost or a middleman.
- * Author:          BTCPay Server
- * Author URI:      https://btcpayserver.org
- * Text Domain:     btcpay-greenfield-for-woocommerce
+ * Plugin Name:     ZEUSPay For Woocommerce V2
+ * Plugin URI:      https://wordpress.org/plugins/zeuspay-for-woocommerce/
+ * Description:     ZEUSPay is a bitcoin payment processor which allows you to receive payments in Bitcoin and altcoins directly, with no fees, transaction cost or a middleman.
+ * Author:          ZEUSPay
+ * Author URI:      https://zeuspay.com
+ * Text Domain:     zeuspay-for-woocommerce
  * Domain Path:     /languages
  * Version:         1.0.2
  * Requires PHP:    7.4
@@ -22,7 +22,7 @@ defined( 'ABSPATH' ) || exit();
 define( 'BTCPAYSERVER_VERSION', '1.0.2' );
 define( 'BTCPAYSERVER_PLUGIN_FILE_PATH', plugin_dir_path( __FILE__ ) );
 define( 'BTCPAYSERVER_PLUGIN_URL', plugin_dir_url(__FILE__ ) );
-define( 'BTCPAYSERVER_PLUGIN_ID', 'btcpay-greenfield-for-woocommerce' );
+define( 'BTCPAYSERVER_PLUGIN_ID', 'zeuspay-for-woocommerce' );
 
 class BTCPayServerWCPlugin {
 
@@ -72,10 +72,10 @@ class BTCPayServerWCPlugin {
 	}
 
 	public static function initPaymentGateways($gateways): array {
-		// We always load the default gateway that covers all payment methods available on BTCPayServer.
+		// We always load the default gateway that covers all payment methods available on ZEUSPay.
 		$gateways[] = DefaultGateway::class;
 
-		// Load payment methods from BTCPay Server as separate gateways.
+		// Load payment methods from ZEUSPay as separate gateways.
 		if (get_option('btcpay_gf_separate_gateways') === 'yes') {
 			// Call init separate payment gateways here.
 			if ($separateGateways = \BTCPayServer\WC\Helper\GreenfieldApiHelper::supportedPaymentMethods()) {
@@ -101,7 +101,7 @@ class BTCPayServerWCPlugin {
 			$message = sprintf(
 				esc_html__(
 					'Plugin not configured yet, please %1$sconfigure the plugin here%2$s',
-					'btcpay-greenfield-for-woocommerce'
+					'zeuspay-for-woocommerce'
 				),
 				'<a href="' . esc_url(admin_url('admin.php?page=wc-settings&tab=btcpay_settings')) . '">',
 				'</a>'
@@ -117,24 +117,24 @@ class BTCPayServerWCPlugin {
 	public function dependenciesNotification() {
 		// Check PHP version.
 		if ( version_compare( PHP_VERSION, '7.4', '<' ) ) {
-			$versionMessage = sprintf( __( 'Your PHP version is %s but BTCPay Greenfield Payment plugin requires version 7.4+.', 'btcpay-greenfield-for-woocommerce' ), PHP_VERSION );
+			$versionMessage = sprintf( __( 'Your PHP version is %s but ZEUSPay Payment plugin requires version 7.4+.', 'zeuspay-for-woocommerce' ), PHP_VERSION );
 			\BTCPayServer\WC\Admin\Notice::addNotice('error', $versionMessage);
 		}
 
 		// Check if WooCommerce is installed.
 		if ( ! is_plugin_active('woocommerce/woocommerce.php') ) {
-			$wcMessage = __('WooCommerce seems to be not installed. Make sure you do before you activate BTCPayServer Payment Gateway.', 'btcpay-greenfield-for-woocommerce');
+			$wcMessage = __('WooCommerce seems to be not installed. Make sure you do before you activate ZEUSPay Payment Gateway.', 'zeuspay-for-woocommerce');
 			\BTCPayServer\WC\Admin\Notice::addNotice('error', $wcMessage);
 		}
 
 	}
 
 	/**
-	 * Checks and displays notice on admin dashboard if the legacy BTCPay plugin is installed.
+	 * Checks and displays notice on admin dashboard if the legacy ZEUSPay plugin is installed.
 	 */
 	public function legacyPluginNotification() {
 		if ( is_plugin_active('btcpay-for-woocommerce/class-wc-gateway-btcpay.php') ) {
-			$legacyMessage = __('Seems you have the old BTCPay for WooCommerce plugin installed. While it should work it is strongly recommended to not run both versions but rely on the maintained version (BTCPay Greenfield for WooCommerce).', 'btcpay-greenfield-for-woocommerce');
+			$legacyMessage = __('Seems you have the old ZEUSPay for WooCommerce plugin installed. While it should work it is strongly recommended to not run both versions but rely on the maintained version (ZEUSPay for WooCommerce).', 'zeuspay-for-woocommerce');
 			\BTCPayServer\WC\Admin\Notice::addNotice('warning', $legacyMessage, true);
 		}
 	}
@@ -153,7 +153,7 @@ class BTCPayServerWCPlugin {
 			$host = filter_var($_POST['host'], FILTER_VALIDATE_URL);
 
 			if ($host === false || (substr( $host, 0, 7 ) !== "http://" && substr( $host, 0, 8 ) !== "https://")) {
-				wp_send_json_error("Error validating BTCPayServer URL.");
+				wp_send_json_error("Error validating ZEUSPay URL.");
 			}
 
 			try {
@@ -174,7 +174,7 @@ class BTCPayServerWCPlugin {
 				// Return the redirect url.
 				wp_send_json_success(['url' => $url]);
 			} catch (\Throwable $e) {
-				\BTCPayServer\WC\Helper\Logger::debug('Error fetching redirect url from BTCPay Server.');
+				\BTCPayServer\WC\Helper\Logger::debug('Error fetching redirect url from ZEUSPay.');
 			}
 		}
 
@@ -187,7 +187,7 @@ class BTCPayServerWCPlugin {
 			return;
 		}
 
-		$title = _x('Payment Status', 'btcpay-greenfield-for-woocommerce');
+		$title = _x('Payment Status', 'zeuspay-for-woocommerce');
 
 		$orderData = $order->get_data();
 		$status = $orderData['status'];
@@ -195,19 +195,19 @@ class BTCPayServerWCPlugin {
 		switch ($status)
 		{
 			case 'on-hold':
-				$statusDesc = _x('Waiting for payment settlement', 'btcpay-greenfield-for-woocommerce');
+				$statusDesc = _x('Waiting for payment settlement', 'zeuspay-for-woocommerce');
 				break;
 			case 'processing':
-				$statusDesc = _x('Payment processing', 'btcpay-greenfield-for-woocommerce');
+				$statusDesc = _x('Payment processing', 'zeuspay-for-woocommerce');
 				break;
 			case 'completed':
-				$statusDesc = _x('Payment settled', 'btcpay-greenfield-for-woocommerce');
+				$statusDesc = _x('Payment settled', 'zeuspay-for-woocommerce');
 				break;
 			case 'failed':
-				$statusDesc = _x('Payment failed', 'btcpay-greenfield-for-woocommerce');
+				$statusDesc = _x('Payment failed', 'zeuspay-for-woocommerce');
 				break;
 			default:
-				$statusDesc = _x(ucfirst($status), 'btcpay-greenfield-for-woocommerce');
+				$statusDesc = _x(ucfirst($status), 'zeuspay-for-woocommerce');
 				break;
 		}
 
@@ -244,7 +244,7 @@ function init_btcpay_greenfield() {
  */
 add_action('init', function() {
 	// Adding textdomain and translation support.
-	load_plugin_textdomain('btcpay-greenfield-for-woocommerce', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/');
+	load_plugin_textdomain('zeuspay-for-woocommerce', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/');
 	// Setting up and handling custom endpoint for api key redirect from BTCPay Server.
 	add_rewrite_endpoint('btcpay-settings-callback', EP_ROOT);
 	// Flush rewrite rules only once after activation.
@@ -291,15 +291,15 @@ add_action( 'template_redirect', function() {
 		if ($apiData->hasSingleStore() && $apiData->hasRequiredPermissions()) {
 			update_option('btcpay_gf_api_key', $apiData->getApiKey());
 			update_option('btcpay_gf_store_id', $apiData->getStoreID());
-			\BTCPayServer\WC\Admin\Notice::addNotice('success', __('Successfully received api key and store id from BTCPay Server API.', 'btcpay-greenfield-for-woocommerce'));
+			\BTCPayServer\WC\Admin\Notice::addNotice('success', __('Successfully received api key and store id from ZEUSPay API.', 'zeuspay-for-woocommerce'));
 			wp_redirect($btcPaySettingsUrl);
 		} else {
-			\BTCPayServer\WC\Admin\Notice::addNotice('error', __('Please make sure you only select one store on the BTCPay API authorization page.', 'btcpay-greenfield-for-woocommerce'));
+			\BTCPayServer\WC\Admin\Notice::addNotice('error', __('Please make sure you only select one store on the ZEUSPay API authorization page.', 'zeuspay-for-woocommerce'));
 			wp_redirect($btcPaySettingsUrl);
 		}
 	}
 
-	\BTCPayServer\WC\Admin\Notice::addNotice('error', __('Error processing the data from BTCPay. Please try again.', 'btcpay-greenfield-for-woocommerce'));
+	\BTCPayServer\WC\Admin\Notice::addNotice('error', __('Error processing the data from ZEUSPay. Please try again.', 'zeuspay-for-woocommerce'));
 	wp_redirect($btcPaySettingsUrl);
 });
 

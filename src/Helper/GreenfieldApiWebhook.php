@@ -32,7 +32,7 @@ class GreenfieldApiWebhook {
 					return true;
 				}
 			} catch (\Throwable $e) {
-				Logger::debug('Error fetching existing Webhook from BTCPay Server. Message: ' . $e->getMessage());
+				Logger::debug('Error fetching existing Webhook from ZEUSPay. Message: ' . $e->getMessage());
 			}
 		}
 
@@ -40,7 +40,7 @@ class GreenfieldApiWebhook {
 	}
 
 	/**
-	 * Register a webhook on BTCPay Server and store it locally.
+	 * Register a webhook on ZEUSPay and store it locally.
 	 */
 	public static function registerWebhook(string $apiUrl, $apiKey, $storeId): ?WebhookResult {
 		try {
@@ -64,7 +64,7 @@ class GreenfieldApiWebhook {
 
 			return $webhook;
 		} catch (\Throwable $e) {
-			Logger::debug('Error fetching existing Webhook from BTCPay Server.');
+			Logger::debug('Error fetching existing Webhook from ZEUSPay.');
 		}
 
 		return null;

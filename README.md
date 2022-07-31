@@ -1,7 +1,7 @@
-# BTCPay Greenfield Plugin for WooCommerce
+# ZEUSPay Plugin for WooCommerce
 
 For a detailed feature overview and description go to the official WordPress plugin page:
-https://wordpress.org/plugins/btcpay-greenfield-for-woocommerce/
+https://wordpress.org/plugins/zeuspay-for-woocommerce/
 
 This readme is mostly about plugin development on the main repo on GitHub.
 
@@ -11,11 +11,11 @@ The basic structure is a mix of the plugin generator by WP cli tool (file struct
 
 ## Todo new features
 Check the repos issues here:
-https://github.com/btcpayserver/woocommerce-greenfield-plugin/issues
+https://github.com/zeuspayments/woocommerce-greenfield-plugin/issues
 
 ## Development
 ```
-git clone git@github.com:btcpayserver/woocommerce-greenfield-plugin.git
+git clone git@github.com:zeuspayments/woocommerce-greenfield-plugin.git
 ```
 
 **Install dependencies with Composer:**
@@ -36,4 +36,4 @@ composer install
 ```
 docker-compose up -d
 ```
-Go to [http://localhost:8821]() and install WordPress, WooCommerce and BTCPay for WooCommerce V2 Plugin.
+Go to [http://localhost:8821]() and install WordPress, WooCommerce and ZEUSPay for WooCommerce V2 Plugin.

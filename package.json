@@ -1,9 +1,9 @@
 
 {
-  "name": "btcpay-greenfield-for-woocommerce",
+  "name": "zeuspay-for-woocommerce",
   "version": "0.1.0",
   "main": "Gruntfile.js",
-  "author": "BTCPay Server",
+  "author": "ZEUSPay",
   "scripts" : {
     "build" : "grunt default" ,
     "i18n" : "grunt i18n"
